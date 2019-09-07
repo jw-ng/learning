@@ -1,2 +1,0 @@
-# Wasted rendering
-
