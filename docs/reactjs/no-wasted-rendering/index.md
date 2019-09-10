@@ -1,6 +1,7 @@
 # No wasted rendering
 
-In this session, we shall cover how a naive thought of optimizing the `render`-ing of a ReactJS application led to a deep rabbit hole.
+In this article, we shall learn how a naive thought of optimizing the
+`render`-ing of a ReactJS application led to a deep rabbit hole.
 
 ## Contents
 
@@ -153,12 +154,15 @@ This one is the easiest. It is usually[\*]() done through `props` passing.
 ```js
 const fruits = [ { name: 'apple' }, { name: 'banana' } ];
 
-const Parent = () =>
+const Parent = () => (
   <div>
     fruits.map(fruit => <Child name={fruit.name}>);
-  </div>;
+  </div>
+);
 
-const Child = ({ name }) => <div key={`child-${name}`}>{name}</div>;
+const Child = ({ name }) => (
+  <div key={`child-${name}`}>{name}</div>
+);
 ```
 
 ###### \* there are other methods to do so
@@ -177,20 +181,20 @@ const Parent = () => {
   };
   return (
     <div>
-      counters.map(({(name, count)}) =>
-      <Child name={name} count={count} updateCount={updateCount} />
+      counters.map(({(name, count)}) => (
+        <Child name={name} count={count} updateCount={updateCount} />
       );
     </div>
   );
 };
 
-const Child = ({ name, count, updateCount }) => {
+const Child = ({ name, count, updateCount }) => (
   <div key={`child-${name}`}>
-    {`${name}: ${count}`}
+    <span>{`${name}: ${count}`}</span>
     <button onClick={updateCount(name, count + 1)}>+1</button>
     <button onClick={updateCount(name, count - 1)}>-1</button>
   </div>;
-};
+);
 ```
 
 ###### \* there are other methods to do so
@@ -237,7 +241,13 @@ const GrandParent = () => {
     <div>
       Object.keys(categories).map(category) => {
         const { category: fruits } = categories;
-        <Parent category={category} fruits={fruits} updateCount={updateCount} />
+        return (
+          <Parent
+            category={category}
+            fruits={fruits}
+            updateCount={updateCount}
+          />
+        );
       });
     </div>
   );
@@ -249,24 +259,24 @@ const Parent = ({category, fruits}) => {
   }
   return (
     <div key={`parent-${nameStartingWith}`}>
-      fruits.map(({ name, count }) =>
-      <Child
-        name={name}
-        count={count}
-        updateCount={updateCountForThisCategory}
-      />
+      fruits.map(({ name, count }) => (
+        <Child
+          name={name}
+          count={count}
+          updateCount={updateCountForThisCategory}
+        />
       );
     </div>
   )
 }
 
-const Child = ({ name, count, updateCount }) => {
+const Child = ({ name, count, updateCount }) => (
   <div key={`child-${name}`}>
-    {`${name}: ${count}`}
+    <span>{`${name}: ${count}`}</span>
     <button onClick={updateCount(name, count + 1)}>+1</button>
     <button onClick={updateCount(name, count - 1)}>-1</button>
   </div>;
-};
+);
 ```
 
 #### Using React Context API
@@ -301,18 +311,16 @@ Creating a context provider:
 
 import MyContext from 'MyContext';
 
-const ContextProvider = () => {
-  return (
-    <MyContext.Provider value={
-      {
-        color: 'blue'
-        callback: () => {}
-      }
-    }>
-      // children components
-    </MyContext.Provider>
-  );
-}
+const ContextProvider = ({ children }) => (
+  <MyContext.Provider value={
+    {
+      color: 'blue'
+      callback: () => {}
+    }
+  }>
+    {children}
+  </MyContext.Provider>
+);
 ```
 
 Creating a context consumer using React hooks:
@@ -440,10 +448,10 @@ These two are `useReducer` and `useContext`.
 >     dispatch({ type: actionTypes.INCREMENT_COUNT });
 >   };
 >   return (
->     <>
->       Count: {state.count}
+>     <div>
+>       <span>Count: {state.count}</span>
 >       <button onClick={handleIncrement}>+</button>
->     </>
+>     </div>
 >   );
 > };
 > ```
@@ -569,13 +577,13 @@ const Ingredient = ({ identifier }) => {
   const { name, amountInGrams } = thisIngredient;
 
   return (
-    <>
-      <div key={identifier}>
+    <div key={identifier}>
+      <span>
         {name}: {amountInGrams} g
-      </div>
+      </span>
       <button onClick={handleRestock}>+ 100 g</button>
       <button onClick={handleUse}>- 100 g</button>
-    </>
+    </div>
   );
   //...
 };
