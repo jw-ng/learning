@@ -1,4 +1,4 @@
-# State management in ReactJS
+# State management in React
 
 In ReactJS, a React component translate raw data into rich HTML for use in the
 UI. These data are represented by two things - `state` and `props`.
@@ -33,16 +33,6 @@ In short, there are three main cases of "passing" data in a React application:
 2. From Child to Parent
 3. Between Siblings (or cousins, or distant relatives)
 
-And the various strategies of "passing" data are:
-
-1. Through `props`
-2. Through callback functions
-3. Through React Context API
-4. Through a third-party library for state management (such as `Redux`)
-
-In this article, we will not explore the third-party libraries. We will instead
-focus on doing it the "React-only" way.
-
 ## Passing data from parent to child
 
 This one is the easiest. It is usually[\*]() done through `props` passing.
@@ -50,12 +40,15 @@ This one is the easiest. It is usually[\*]() done through `props` passing.
 ```js
 const fruits = [ { name: 'apple' }, { name: 'banana' } ];
 
-const Parent = () =>
+const Parent = () => (
   <div>
     fruits.map(fruit => <Child name={fruit.name}>);
-  </div>;
+  </div>
+);
 
-const Child = ({ name }) => <div key={`child-${name}`}>{name}</div>;
+const Child = ({ name }) => (
+  <div key={`child-${name}`}>{name}</div>
+);
 ```
 
 ###### \* there are other methods to do so
@@ -74,20 +67,20 @@ const Parent = () => {
   };
   return (
     <div>
-      counters.map(({(name, count)}) =>
-      <Child name={name} count={count} updateCount={updateCount} />
+      counters.map(({(name, count)}) => (
+        <Child name={name} count={count} updateCount={updateCount} />
       );
     </div>
   );
 };
 
-const Child = ({ name, count, updateCount }) => {
+const Child = ({ name, count, updateCount }) => (
   <div key={`child-${name}`}>
-    {`${name}: ${count}`}
+    <span>{`${name}: ${count}`}</span>
     <button onClick={updateCount(name, count + 1)}>+1</button>
     <button onClick={updateCount(name, count - 1)}>-1</button>
   </div>;
-};
+);
 ```
 
 ###### \* there are other methods to do so
@@ -102,7 +95,7 @@ There are several ways, and the two most common ways are:
 1. Using a callback function in a **common** "ancestor"
 2. Using React Context API
 
-## Using a callback function in a common parent
+### Using a callback function in a common parent
 
 When these siblings (or cousins) share a common parent further up the ancestry
 lineage, one common strategy is to have the common parent pass down a callback
@@ -134,7 +127,13 @@ const GrandParent = () => {
     <div>
       Object.keys(categories).map(category) => {
         const { category: fruits } = categories;
-        <Parent category={category} fruits={fruits} updateCount={updateCount} />
+        return (
+          <Parent
+            category={category}
+            fruits={fruits}
+            updateCount={updateCount}
+          />
+        );
       });
     </div>
   );
@@ -146,27 +145,27 @@ const Parent = ({category, fruits}) => {
   }
   return (
     <div key={`parent-${nameStartingWith}`}>
-      fruits.map(({ name, count }) =>
-      <Child
-        name={name}
-        count={count}
-        updateCount={updateCountForThisCategory}
-      />
+      fruits.map(({ name, count }) => (
+        <Child
+          name={name}
+          count={count}
+          updateCount={updateCountForThisCategory}
+        />
       );
     </div>
   )
 }
 
-const Child = ({ name, count, updateCount }) => {
+const Child = ({ name, count, updateCount }) => (
   <div key={`child-${name}`}>
-    {`${name}: ${count}`}
+    <span>{`${name}: ${count}`}</span>
     <button onClick={updateCount(name, count + 1)}>+1</button>
     <button onClick={updateCount(name, count - 1)}>-1</button>
   </div>;
-};
+);
 ```
 
-## Using React Context API
+### Using React Context API
 
 Another way we can pass data between siblings (or cousins, or distant relatives)
 is through the [React Context](https://reactjs.org/docs/context.html).
@@ -179,7 +178,7 @@ It can be used to prevent props-drilling.
 An alternative to Context is to use
 [Component Composition](https://reactjs.org/docs/composition-vs-inheritance.html)
 
-## Example of using Context
+### Example of using Context
 
 To create a context:
 
@@ -198,18 +197,16 @@ Creating a context provider:
 
 import MyContext from 'MyContext';
 
-const ContextProvider = () => {
-  return (
-    <MyContext.Provider value={
-      {
-        color: 'blue'
-        callback: () => {}
-      }
-    }>
-      // children components
-    </MyContext.Provider>
-  );
-}
+const ContextProvider = ({ children }) => (
+  <MyContext.Provider value={
+    {
+      color: 'blue'
+      callback: () => {}
+    }
+  }>
+    {children}
+  </MyContext.Provider>
+);
 ```
 
 Creating a context consumer using React hooks:
