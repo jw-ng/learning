@@ -1,21 +1,12 @@
 # No wasted rendering
 
-This article shall cover my journey in
-chasing the optimal no-wasted-`render`ing
-goal while developing in ReactJS.
+In this session, we shall cover how a naive thought of optimizing the `render`-ing of a ReactJS application led to a deep rabbit hole.
 
 ## Contents
 
 - [How does `render` works in ReactJS](#how-does-render-works-in-reactjs)
-- [How to manage state using React Context API](#how-to-manage-state-using-react-context-api)
-
----
-
-## Agenda
-
-- Learn how `render()` works
-- Learn how to avoid props drilling
-- Learn how to handle complex state logic
+- [State management in React](#state-management-in-react)
+- ["Mocking" `Redux` using React Hooks](#mocking-redux-using-react-hooks)
 
 ---
 
@@ -30,8 +21,6 @@ React utilizes the concept of a
 _[Virtual DOM (VDOM)](https://reactjs.org/docs/faq-internals.html)_ and
 _[Reconciliation](https://reactjs.org/docs/reconciliation.html)_ to enable its
 declarative API.
-
----
 
 > #### Aside: what is declarative?
 >
@@ -48,8 +37,6 @@ declarative API.
 > handling, and manual DOM updating that you would otherwise have to use to build
 > your app.
 
----
-
 ### And how does _Reconciliation_ works?
 
 TLDR; React will perform a **referential** check on each component using the Virtual
@@ -57,8 +44,6 @@ DOM and decide if it needs to update the "real" DOM.
 
 For the longer (and more official) version, please refer to this
 [link](https://reactjs.org/docs/reconciliation.html).
-
----
 
 > #### Aside: what is referential check?
 >
@@ -79,9 +64,7 @@ For the longer (and more official) version, please refer to this
 >
 > For primitives, as long as the values are the same, the check will return
 > true. For arrays and objects, return true if memory address is the same.
-
----
-
+>
 > #### And, what does that mean in React?
 >
 > When performing reconciliation, React does not have to perform deep comparison
@@ -90,10 +73,7 @@ For the longer (and more official) version, please refer to this
 >
 > 1. Two elements of different types will produce different trees.
 > 2. The developer can hint at which child elements may be stable across
-
-     different renders with a `key` prop.
-
----
+>    different renders with a `key` prop.
 
 ### Now, how does `render()` come into play?
 
@@ -105,8 +85,6 @@ children components. This happens recursively until there are no more components
 to `render`.
 
 If a component has a deep tree structure, `render`-ing it _may_ be expensive.
-
----
 
 #### But sometimes, `render` is skipped!
 
@@ -125,8 +103,6 @@ showed no changes
 
 ###### \* through referential checks done of each key in the state and props
 
----
-
 ### Summing it all up
 
 TLDR; `render()` is called on a component each time the state or props of that
@@ -137,11 +113,11 @@ Pure components can be used to avoid costly `render`-ing.
 
 ## State management in React
 
-In essense, `state` and `props` together holds the raw data needed to be
-translated into rich HTML for a component. The main difference is that `props`
-are passed in, and `state` is maintained by the component itself.
+In ReactJS, a React component translate raw data into rich HTML for use in the
+UI. These data are represented by two things - `state` and `props`.
 
----
+The main difference between `props` and `state` is that `props` are passed in,
+and `state` is maintained by the component itself.
 
 ### When do we use `state`?
 
@@ -152,8 +128,6 @@ are passed in, and `state` is maintained by the component itself.
 
 - when the data is considered read-only in that component i.e. the data is not
   meant to be changed by the receiving component
-
----
 
 ### Various ways of state management in React
 
@@ -172,8 +146,6 @@ In short, there are three main cases of "passing" data in a React application:
 2. From Child to Parent
 3. Between Siblings (or cousins, or distant relatives)
 
----
-
 ### Passing data from parent to child
 
 This one is the easiest. It is usually[\*]() done through `props` passing.
@@ -190,8 +162,6 @@ const Child = ({ name }) => <div key={`child-${name}`}>{name}</div>;
 ```
 
 ###### \* there are other methods to do so
-
----
 
 ### Passing data from child to parent
 
@@ -225,8 +195,6 @@ const Child = ({ name, count, updateCount }) => {
 
 ###### \* there are other methods to do so
 
----
-
 ### Passing data between siblings (or cousins, or distant relatives)
 
 Sometimes, data needs to be shared amongst siblings and can be updated by either
@@ -236,8 +204,6 @@ There are several ways, and the two most common ways are:
 
 1. Using a callback function in a **common** "ancestor"
 2. Using React Context API
-
----
 
 #### Using a callback function in a common parent
 
@@ -250,8 +216,6 @@ grand-children) receive part of this `state` through `props`.
 
 These children (or grand-children) then uses the callback function to update the
 `state`, so that all dependents of that part of the `state` can update.
-
----
 
 ```js
 const initialCategories = {
@@ -305,8 +269,6 @@ const Child = ({ name, count, updateCount }) => {
 };
 ```
 
----
-
 #### Using React Context API
 
 Another way we can pass data between siblings (or cousins, or distant relatives)
@@ -320,8 +282,6 @@ It can be used to prevent props-drilling.
 An alternative to Context is to use
 [Component Composition](https://reactjs.org/docs/composition-vs-inheritance.html)
 
----
-
 #### Example of using Context
 
 To create a context:
@@ -333,8 +293,6 @@ const MyContext = React.createContext();
 
 export default MyContext;
 ```
-
----
 
 Creating a context provider:
 
@@ -357,8 +315,6 @@ const ContextProvider = () => {
 }
 ```
 
----
-
 Creating a context consumer using React hooks:
 
 ```js
@@ -376,8 +332,6 @@ const ContextConsumer = () => {
   return <button onClick={handleClick}>{color}</button>;
 };
 ```
-
----
 
 Creating a context consumer using React class components:
 
@@ -438,7 +392,7 @@ These two are `useReducer` and `useContext`.
 >
 > ---
 >
-> ## React Hooks: `useReducer` - how to use it
+> #### React Hooks: `useReducer` - how to use it
 >
 > The `useReducer` API:
 >
@@ -713,18 +667,26 @@ const InventoryWithFetching = () => {
 
   return (
     <InventoryProvider initialState={inventory} reducer={inventoryReducer}>
-      recipes.map(recipe => (
-      <Recipe {...recipe} /> // not exactly a nice way to pass in props... ));
+      recipes.map(recipe => {
+        const { identifier, name, ingredients } = recipe;
+        return (
+          <Recipe
+            identifier={identifier}
+            name={name}
+            ingredients={ingredients}
+          />
+        );
+      });
     </InventoryProvider>
   );
 };
 
 const Recipe = ({ identifier, name, ingredients }) => {
   return (
-    <>
-      <div key={identifier}>{name}</div>
+    <div key={identifier}>
+      <span>{name}</span>
       ingredients.map(ingredient => (
-      <ContextualIngredient identifier={ingredient.identifier} />
+        <ContextualIngredient identifier={ingredient.identifier} />
       ));
     </>
   );

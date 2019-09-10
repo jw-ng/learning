@@ -3,3 +3,6 @@
 
 # Marp files
 *.marp.md
+
+# pdf files
+*.pdf
