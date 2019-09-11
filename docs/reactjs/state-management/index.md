@@ -38,17 +38,17 @@ In short, there are three main cases of "passing" data in a React application:
 This one is the easiest. It is usually[\*]() done through `props` passing.
 
 ```js
-const fruits = [ { name: 'apple' }, { name: 'banana' } ];
+const fruits = [{ name: "apple" }, { name: "banana" }];
 
 const Parent = () => (
   <div>
-    fruits.map(fruit => <Child name={fruit.name}>);
+    {fruits.map(fruit => (
+      <Child name={fruit.name} />
+    ))}
   </div>
 );
 
-const Child = ({ name }) => (
-  <div key={`child-${name}`}>{name}</div>
-);
+const Child = ({ name }) => <div key={`child-${name}`}>{name}</div>;
 ```
 
 ###### \* there are other methods to do so
@@ -67,9 +67,9 @@ const Parent = () => {
   };
   return (
     <div>
-      counters.map(({(name, count)}) => (
+      {counters.map(({(name, count)}) => (
         <Child name={name} count={count} updateCount={updateCount} />
-      );
+      ))}
     </div>
   );
 };
@@ -125,7 +125,7 @@ const GrandParent = () => {
   };
   return (
     <div>
-      Object.keys(categories).map(category) => {
+      {Object.keys(categories).map(category => {
         const { category: fruits } = categories;
         return (
           <Parent
@@ -134,7 +134,7 @@ const GrandParent = () => {
             updateCount={updateCount}
           />
         );
-      });
+      })}
     </div>
   );
 };
@@ -145,13 +145,13 @@ const Parent = ({category, fruits}) => {
   }
   return (
     <div key={`parent-${nameStartingWith}`}>
-      fruits.map(({ name, count }) => (
+      {fruits.map(({ name, count }) => (
         <Child
           name={name}
           count={count}
           updateCount={updateCountForThisCategory}
         />
-      );
+      ))}
     </div>
   )
 }

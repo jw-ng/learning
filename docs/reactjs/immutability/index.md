@@ -180,7 +180,9 @@ class ClassComponent extends React.PureComponent {
   render() {
     return (
       <div>
-        props.someArray.map(item => <div key={item.id}>{item.name}</div>);
+        {props.someArray.map(item => (
+          <div key={item.id}>{item.name}</div>
+        ))}
       </div>
     );
   }
@@ -231,7 +233,9 @@ const areEqual = (prevProps, nextProps) => {
 const APureComponent = React.memo(props => {
   return (
     <div>
-      props.someArray.map(item => <div key={item.id}>{item.name}</div>);
+      {props.someArray.map(item => (
+        <div key={item.id}>{item.name}</div>
+      ))}
     </div>
   );
 }, areEqual);
