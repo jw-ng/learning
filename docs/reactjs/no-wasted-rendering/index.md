@@ -193,7 +193,7 @@ const Child = ({ name, count, updateCount }) => (
     <span>{`${name}: ${count}`}</span>
     <button onClick={updateCount(name, count + 1)}>+1</button>
     <button onClick={updateCount(name, count - 1)}>-1</button>
-  </div>;
+  </div>
 );
 ```
 
@@ -275,7 +275,7 @@ const Child = ({ name, count, updateCount }) => (
     <span>{`${name}: ${count}`}</span>
     <button onClick={updateCount(name, count + 1)}>+1</button>
     <button onClick={updateCount(name, count - 1)}>-1</button>
-  </div>;
+  </div>
 );
 ```
 
