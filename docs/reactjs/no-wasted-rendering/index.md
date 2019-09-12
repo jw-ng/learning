@@ -99,7 +99,7 @@ For functional components, we have
 [`React.memo`](https://reactjs.org/docs/react-api.html#reactmemo).
 
 Both methods have differences in how they did it, but the idea is to avoid
-calling `render()` if a shallow[\*]() comparison of the component's state and props
+calling `render()` if a shallow* comparison of the component's state and props
 showed no changes
 
 ###### \* through referential checks done of each key in the state and props
@@ -149,7 +149,7 @@ In short, there are three main cases of "passing" data in a React application:
 
 ### Passing data from parent to child
 
-This one is the easiest. It is usually[\*]() done through `props` passing.
+This one is the easiest. It is usually* done through `props` passing.
 
 ```js
 const fruits = [{ name: "apple" }, { name: "banana" }];
@@ -169,7 +169,7 @@ const Child = ({ name }) => <div key={`child-${name}`}>{name}</div>;
 
 ### Passing data from child to parent
 
-This is trickier, but usually[\*]() done through callback functions.
+This is trickier, but usually* done through callback functions.
 
 ```js
 const initialCounters = { apple: 42, banana: 42 };
@@ -390,7 +390,7 @@ These two are `useReducer` and `useContext`.
 > - the next state depends on the previous one
 >
 > Optimizes performance for components that trigger deep updates by passing
-> `dispatch` down instead of callbacks[\*]().
+> `dispatch` down instead of callbacks*.
 >
 > - Can avoid passing callbacks through props-drilling
 > - `dispatch` context never changes, so components that reads it don't need to
@@ -479,7 +479,7 @@ _Serves 1 React Component_
 
 #### 1. Create a state that we want to store "globally"
 
-First, we need a state that we want to store "globally"[\*](). In this recipe, we
+First, we need a state that we want to store "globally"*. In this recipe, we
 shall use the following list that contains ingredients that we have in stock:
 
 ```js
@@ -705,12 +705,10 @@ const Recipe = ({ identifier, name, ingredients }) => {
 
 ## References
 
-1. React Virtual DOM - https://reactjs.org/docs/faq-internals.html
-1. React Reconciliation - https://reactjs.org/docs/reconciliation.html
-1. PureComponents - https://reactjs.org/docs/react-api.html#reactpurecomponent
-1. React.memo - https://reactjs.org/docs/react-api.html#reactmemo
-1. React Context - https://reactjs.org/docs/context.html
-1. Component Composition -
-   https://reactjs.org/docs/composition-vs-inheritance.html
-1. Avoid passing callbacks down -
-   https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down
+1. React Virtual DOM - [https://reactjs.org/docs/faq-internals.html](https://reactjs.org/docs/faq-internals.html)
+1. React Reconciliation - [https://reactjs.org/docs/reconciliation.html](https://reactjs.org/docs/reconciliation.html)
+1. PureComponents - [https://reactjs.org/docs/react-api.html#reactpurecomponent](https://reactjs.org/docs/react-api.html#reactpurecomponent)
+1. React.memo - [https://reactjs.org/docs/react-api.html#reactmemo](https://reactjs.org/docs/react-api.html#reactmemo)
+1. React Context - [https://reactjs.org/docs/context.html](https://reactjs.org/docs/context.html)
+1. Component Composition - [https://reactjs.org/docs/composition-vs-inheritance.html](https://reactjs.org/docs/composition-vs-inheritance.html)
+1. Avoid passing callbacks down - [https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down](https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down)

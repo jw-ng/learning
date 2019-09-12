@@ -249,7 +249,7 @@ Immutability plays a big part to ensure optimal performance in React.
 
 ## References
 
-1. React lifecycle method - http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
-1. React's `shouldComponentUpdate` - https://reactjs.org/docs/react-component.html#shouldcomponentupdate)
-1. `React.PureComponent` - https://reactjs.org/docs/react-api.html#reactpurecomponent)
-1. `React.memo` - https://reactjs.org/docs/react-api.html#reactmemo).
+1. React lifecycle method - [http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
+1. React's `shouldComponentUpdate` - [https://reactjs.org/docs/react-component.html#shouldcomponentupdate)](https://reactjs.org/docs/react-component.html#shouldcomponentupdate)
+1. `React.PureComponent` - [https://reactjs.org/docs/react-api.html#reactpurecomponent)](https://reactjs.org/docs/react-api.html#reactpurecomponent)
+1. `React.memo` - [https://reactjs.org/docs/react-api.html#reactmemo](https://reactjs.org/docs/react-api.html#reactmemo)

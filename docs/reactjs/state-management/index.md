@@ -35,7 +35,7 @@ In short, there are three main cases of "passing" data in a React application:
 
 ## Passing data from parent to child
 
-This one is the easiest. It is usually[\*]() done through `props` passing.
+This one is the easiest. It is usually\* done through `props` passing.
 
 ```js
 const fruits = [{ name: "apple" }, { name: "banana" }];
@@ -55,7 +55,7 @@ const Child = ({ name }) => <div key={`child-${name}`}>{name}</div>;
 
 ## Passing data from child to parent
 
-This is trickier, but usually[\*]() done through callback functions.
+This is trickier, but usually\* done through callback functions.
 
 ```js
 const initialCounters = { apple: 42, banana: 42 };
@@ -249,3 +249,10 @@ class ContextConsumer extends React.Component {
 }
 ContextConsumer.contextType = MyContext;
 ```
+
+---
+
+## References
+
+1. Component Composition - [https://reactjs.org/docs/composition-vs-inheritance.html](https://reactjs.org/docs/composition-vs-inheritance.html)
+1. React Context - [https://reactjs.org/docs/context.html](https://reactjs.org/docs/context.html)
