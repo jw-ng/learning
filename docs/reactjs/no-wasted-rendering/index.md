@@ -382,7 +382,7 @@ data store (much like how `Redux` does it).
 
 These two are `useReducer` and `useContext`.
 
-> #### Aside: how to `useReducer`
+> #### Aside: what is `useReducer`? 
 >
 > React calls it an alternative to `useState`. Preferable to `useState` when:
 >
